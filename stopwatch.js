@@ -7,36 +7,59 @@
  let startTime;
  let elapsedTime=0;
  let timerId;
+ let stopTime=0;
  
+ function updateTimeText(){ 
+  let m = Math.floor(elapsedTime / 60000);
+  let s = Math.floor(elapsedTime %60000 / 10000);
+  let ss = Math.floor(elapsedTime % 60000 / 1000);
+  let ms = elapsedTime % 1000;
+
+  m = ("0" + m).slice(-1); 
+  s = ("0"+ s).slice(-1);
+  ss = ("0"+ ss).slice(-1);
+  ms = ("0"+ ms).slice(-1);
+      
+  timer.textContent = m + ':' + s +':'+ss+ ':' + ms;
+  };
+   
+   
+   
+ function restart(){
+  timerId=setTimeout(function(){
+  elapsedTime=Date.now()-startTime+stopTime;
+  updateTimeText()
+  restart();
+  },10);
+ };
+ 
+  
 
  startbutton.addEventListener("click", function(){
-  startTime=new Date()
-  timerId=setInterval(function(){
-  elapsedTime+=Date.now-startTime
-  updateTimeText()
-  },10);
-  });
+  startTime=Date.now();
+  restart();
+ });
   
  stopbutton.addEventListener("click", function(){
-  clearInterval(timerId)
+  clearTimeout(timerId);
+  stopTime+=Date.now()-startTime;
  });
   
  resetbutton.addEventListener("click", function(){
+  elapsedTime=0;
+  stopTime=0;
+  updateTimeText();
   });
+ 
+ 
+
+  
+ 
+
   
  
   
-  function updateTimeText(){
-  let m=Math.floor(elapsedTime/60000);
-  let s=Math.floor(elapsedTime%60000/1000);
-  let ms=elapsedTime%1000;
-  
-  m=("0"+m).slice(-1);
-  s=("0"+s).slice(-1);
-  ms=("0"+ms).slice(-1);
-  
-  timer.textContent=m+":"+s+":"+ms;
- };
+
  
   
  
