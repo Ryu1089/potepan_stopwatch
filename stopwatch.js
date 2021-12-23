@@ -20,7 +20,7 @@
   ss = ("0"+ ss).slice(-1);
   ms = ("0"+ ms).slice(-1);
       
-  timer.textContent = m + ':' + s +':'+ss+ ':' + ms;
+  timer.textContent = m + ':' + s+ss+ ':' + ms;
   };
    
    
@@ -38,16 +38,19 @@
  startbutton.addEventListener("click", function(){
   startTime=Date.now();
   restart();
+  startbutton.setAttribute("disabled", true);  
  });
   
  stopbutton.addEventListener("click", function(){
   clearTimeout(timerId);
   stopTime+=Date.now()-startTime;
+  startbutton.removeAttribute("disabled");    
  });
   
  resetbutton.addEventListener("click", function(){
   elapsedTime=0;
   stopTime=0;
+  startbutton.removeAttribute("disabled");    
   updateTimeText();
   });
  
